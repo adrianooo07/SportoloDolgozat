@@ -4,12 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using SportoloDolgozat.Models;
 using SportoloDolgozat.Models.DTOs;
-using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute; // hibat dobott valamire ezert a quick actionnel fixelte nekem az ai...
 
 namespace SportoloDolgozat.Controllers
 {
-    public class EredmenyController
-    {
+    
         [Route("eredmeny")]
         [ApiController]
         public class EredmenyController : ControllerBase
@@ -101,9 +100,7 @@ namespace SportoloDolgozat.Controllers
                 var connection = new MySqlConnection(ConnectionString);
                 connection.Open();
 
-                string sql = @"INSERT INTO `eredmeny` (`Competition`, `Description`, `ResultTime`, `UpdateTime`, `SportoloID`) 
-                               VALUES
-                               (@competition, @description, @resultTime, @updateTime, @sportoloId)";
+                string sql = @"INSERT INTO `eredmeny` (`Competition`, `Description`, `ResultTime`, `UpdateTime`, `SportoloID`) VALUES(@competition, @description, @resultTime, @updateTime, @sportoloId)";
 
                 var cmd = new MySqlCommand(sql, connection);
 
@@ -136,7 +133,7 @@ namespace SportoloDolgozat.Controllers
                                    `Description` = @description, 
                                    `UpdateTime` = @updateTime, 
                                    `SportoloID` = @sportoloId 
-                               WHERE `Id` = @id";
+                                    WHERE `Id` = @id";
 
                 var cmd = new MySqlCommand(sql, connection);
 
@@ -147,7 +144,6 @@ namespace SportoloDolgozat.Controllers
                 cmd.Parameters.AddWithValue("@id", id);
 
                 cmd.ExecuteNonQuery();
-
                 connection.Close();
 
                 return new
@@ -166,9 +162,7 @@ namespace SportoloDolgozat.Controllers
                 string sql = @"DELETE FROM `eredmeny` WHERE `Id` = @id";
 
                 var cmd = new MySqlCommand(sql, connection);
-
                 cmd.Parameters.AddWithValue("@id", id);
-
                 cmd.ExecuteNonQuery();
 
                 connection.Close();
@@ -188,7 +182,6 @@ namespace SportoloDolgozat.Controllers
                 connection.Open();
 
                 string sql = @"SELECT `Name`, `Email` FROM `sportolo` WHERE `Id` = @id";
-
                 var cmd = new MySqlCommand(sql, connection);
                 cmd.Parameters.AddWithValue("@id", id);
 
@@ -261,7 +254,6 @@ namespace SportoloDolgozat.Controllers
                     };
 
                 }
-
                 return new
                 {
                     message = "Sikeres lekerdezes.",
@@ -318,4 +310,3 @@ namespace SportoloDolgozat.Controllers
             }
         }
     }
-}
