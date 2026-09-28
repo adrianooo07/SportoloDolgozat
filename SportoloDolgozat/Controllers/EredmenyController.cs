@@ -249,6 +249,71 @@ namespace SportoloDolgozat.Controllers
                     });
                 }
 
+                connection.Close();
+
+                if (sportoloName == null)
+                {
+                    return new
+                    {
+                        message = "Nincs ilyen sportolo, vagy nincs eredmenye.",
+                        result = ""
+                    };
+
+                }
+
+                return new
+                {
+                    message = "Sikeres lekerdezes.",
+                    result = new
+                    {
+                        SportoloName = sportoloName,
+                        Eredmenyek = eredmenyek
+                    }
+                };
+            }
+
+            [HttpGet("count")]
+            public object GetTotal()
+            {
+                var connection = new MySqlConnection(ConnectionString);
+                connection.Open();
+
+                string sql = "SELECT COUNT(*) FROM `eredmeny`";
+                var cmd = new MySqlCommand(sql, connection);
+
+                var count = Convert.ToInt32(cmd.ExecuteScalar());
+
+                connection.Close();
+
+                return new
+                {
+                    message = "Sikeres lekerdezes.",
+                    result = count
+                };
+            }
+
+            [HttpGet("sportoloCount")]
+            public object GetCountBySportolo(int id)
+            {
+                var connection = new MySqlConnection(ConnectionString);
+                connection.Open();
+
+                string sql = "SELECT COUNT(*) FROM `eredmeny` WHERE `SportoloId` = @id";
+                var cmd = new MySqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@id", id);
+
+                var count = Convert.ToInt32(cmd.ExecuteScalar());
+
+                connection.Close();
+                return new
+                {
+                    message = "Sikeres lekerdezes.",
+                    result = new
+                    {
+                        SportoloId = id,
+                        ResultCount = count
+                    }
+                };
             }
         }
     }
