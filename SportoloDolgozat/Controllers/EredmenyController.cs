@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using SportoloDolgozat.Models;
 using SportoloDolgozat.Models.DTOs;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace SportoloDolgozat.Controllers
 {
@@ -219,7 +220,7 @@ namespace SportoloDolgozat.Controllers
                 return data;
             }
 
-            [HttpGet(sportoloEredmenyek)]
+            [HttpGet("sportoloEredmenyek")]
             public object GetSportoloEredmenyekkel(int id)
             {
                 var connection = new MySqlConnection(ConnectionString);
